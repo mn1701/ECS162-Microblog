@@ -333,17 +333,12 @@ function addPost(title, content, user) {
 
 // Function to generate an image avatar
 function generateAvatar(letter, width = 100, height = 100) {
-    // TODO: Generate an avatar image with a letter
-    // Steps:
-    // 1. Choose a color scheme based on the letter
-    // 2. Create a canvas with the specified width and height
-    // 3. Draw the background color
-    // 4. Draw the letter in the center
-    // 5. Return the avatar as a PNG buffer
-
-    const canvas = createCanvas(width, height);
-    const ctx = canvas.getContext('2d');
-    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33F6'];
+    const newCanvas = canvas.createCanvas(width, height);
+    const ctx = newCanvas.getContext('2d');
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#FF33F6', 
+                    '#FFBD33', '#33FFBD', '#BD33FF', '#FF5733', '#FF3380',
+                    '#3380FF', '#80FF33', '#33FF80', '#3380FF', '#FF8033', 
+                    '#8033FF', '#3380FF', '#FF3380', '#80FF33', '#33FF80'];
     const color = colors[letter.charCodeAt(0) % colors.length];
 
     ctx.fillStyle = color;
@@ -355,5 +350,5 @@ function generateAvatar(letter, width = 100, height = 100) {
     ctx.textBaseline = 'middle';
     ctx.fillText(letter, width / 2, height / 2);
 
-    return canvas.toBuffer();
+    return newCanvas.toBuffer();
 }
