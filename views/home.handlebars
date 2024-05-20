@@ -95,7 +95,10 @@ function searchEmojis() {
     // array.filter takes a predicate
     // use string.includes. 
 
-    const filteredEmojis = allEmojis.filter(...);
+    const filteredEmojis = allEmojis.filter(emoji => 
+        emoji.slug.toLowerCase().includes(searchTerm) || 
+        emoji.character.includes(searchTerm)
+    );
     
     displayEmojis(filteredEmojis);
 }

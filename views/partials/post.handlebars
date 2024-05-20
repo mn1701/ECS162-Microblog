@@ -1,26 +1,38 @@
 {{! Partial for a single post }}
 <div class="post">
     <div class="post-avatar">
-        <!-- the user's avatar -->
+        <img src="{{#if avatar_url}}{{avatar_url}}{{else}}/avatar/{{username}}{{/if}}" alt="Avatar">
     </div>
     <div class="post-content preserve-newlines">
         <h3>{{title}}</h3>
         <p>{{content}}</p>
         <div class="post-status-bar">
-            {{#ifCond username ../user.username}}
-                <form action="/delete/{{id}}" method="POST" style="display:inline;">
-                    <button type="submit" class="delete-button" data-id="{{id}}"><i class="fas fa-trash-alt"></i></button>
-                </form>
+            <span>{{likes}} likes</span>
+            {{!-- Log the values being compared --}}
+            <script>
+                console.log('Comparing:', '{{username}}', '{{user.username}}');
+            </script>
+            {{#ifCond username user.username}}
+                <button class="delete-button" data-id="{{id}}"><i class="fas fa-trash-alt"></i></button>
             {{else}}
-                <form action="/like/{{id}}" method="POST" style="display:inline;">
-                    <button type="submit" class="like-button" data-id="{{id}}">♥ {{likes}}</button>
-                </form>
+                <button class="like-button" data-id="{{id}}">♥</button>
             {{/ifCond}}
-            <span>by {{username}} at {{timestamp}}</span>
+            <span>by {{username}} on {{timestamp}}</span>
         </div>
     </div>
 </div>
+
 <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.like-button').forEach(button => {
+            button.addEventListener('click', handleLikeClick);
+        });
+
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', handleDeleteClick);
+        });
+    });
 
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
@@ -44,12 +56,5 @@
             }
         });
     }    
-    document.querySelectorAll('.like-button').forEach(button => {
-        button.addEventListener('click', handleLikeClick);
-    });
-
-    document.querySelectorAll('.delete-button').forEach(button => {
-        button.addEventListener('click', handleDeleteClick);
-    });
 
 </script>

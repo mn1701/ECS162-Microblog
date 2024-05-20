@@ -46,6 +46,7 @@ app.engine(
                 return str.toLowerCase();
             },
             ifCond: function (v1, v2, options) {
+                console.log(`Comparing ${v1} with ${v2}`); // Debugging line
                 if (v1 === v2) {
                     return options.fn(this);
                 }
@@ -80,6 +81,8 @@ app.use((req, res, next) => {
     res.locals.postNeoType = 'Toot';
     res.locals.loggedIn = req.session.loggedIn || false;
     res.locals.userId = req.session.userId || '';
+    res.locals.user = getCurrentUser(req) || {};
+    console.log('res.locals.user:', res.locals.user);
     next();
 });
 
@@ -98,6 +101,7 @@ app.use(express.json());                            // Parse JSON bodies (as sen
 app.get('/', (req, res) => {
     const posts = getPosts();
     const user = getCurrentUser(req) || {};
+    console.log('Route - User in Home Route:', user); // debugging log
     res.render('home', { posts, user });
 });
 
@@ -133,77 +137,52 @@ app.get('/post/:id', (req, res) => {
 app.post('/posts', (req, res) => {
     const user = getCurrentUser(req);
     if (user) {
-        const newPost = {
-            id: posts.length + 1,
-            title: req.body.title,
-            content: req.body.content,
-            username: user.username,
-            timestamp: new Date().toISOString(),
-            likes: 0
-        };
-        posts.push(newPost);
+        addPost(req.body.title, req.body.content, user);
         res.redirect('/');
-      } 
-    else {
+    } else {
         res.redirect('/login');
     }
 });
 app.post('/like/:id', (req, res) => {
-    const user = getCurrentUser(req);
-    if (user) {
-        const post = posts.find(p => p.id === parseInt(req.params.id));
-        if (post && post.username !== user.username) {
-          post.likes += 1;
-        }
-      }
-    res.redirect('/');
+    updatePostLikes(req, res);;
 });
 app.get('/profile', isAuthenticated, (req, res) => {
-    const user = getCurrentUser(req);
+    const user = getCurrentUser(req) || {};
+    console.log('Route - User in Profile Route:', user); // debugging log
     if (user) {
-      const userPosts = posts.filter(post => post.username === user.username);
-      res.render('profile', { user, posts: userPosts });
+        const userPosts = posts.filter(post => post.username === user.username);
+        res.render('profile', { user, posts: userPosts });
     } else {
-      res.redirect('/login');
+        res.redirect('/login');
     }
   });
   
 app.get('/avatar/:username', (req, res) => {
-  const user = users.find(u => u.username === req.params.username);
-  if (user) {
-    const avatar = generateAvatar(user.username[0]);
-    res.type('png');
-    res.send(avatar);
-  } else {
-    res.redirect('/error');
-  }
+    handleAvatar(req, res);
 });
 app.post('/register', (req, res) => {
     const { username } = req.body;
-    if (findUserByUsername(username)) {
-        res.redirect('/register?error=Username already exists');
-    } else {
-        const user = addUser(username);
-        req.session.userId = user.id;
+    if (!users.find(user => user.username === username)) {
+        const newUser = {
+            id: users.length + 1,
+            username,
+            avatar_url: undefined,
+            memberSince: new Date().toISOString(),
+        };
+        users.push(newUser);
+        req.session.userId = newUser.id;
         req.session.loggedIn = true;
         res.redirect('/');
+    } else {
+        res.redirect('/register?error=User%20already%20exists');
     }
-  });
+});
   
 app.post('/login', (req, res) => {
-  const { username } = req.body;
-  const user = findUserByUsername(username);
-  if (user) {
-    req.session.userId = user.id;
-    req.session.loggedIn = true;
-    res.redirect('/');
-  } else {
-    res.redirect('/login?error=Invalid username');
-  }
+    loginUser(req, res);
 });
 app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.redirect('/');
+    logoutUser(req, res);
 });
 app.post('/delete/:id', isAuthenticated, (req, res) => {
   const postId = parseInt(req.params.id);
