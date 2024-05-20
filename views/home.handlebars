@@ -7,9 +7,14 @@
         <!-- show the create post form when logged in -->
         <section class="post-form">
             <!-- make a header here -->
+            <h2>Create a new {{postNeoType}}</h2>
+
             <form action="/posts" method="POST">
                 <!-- title input field name = "title" -->
                 <!-- text area input field name = "content" -->
+
+                <input type="text" name="title" placeholder="Title" required>
+                <textarea name="content" id="post-content" placeholder="What's on your mind?" required></textarea>
 
                 <div class="form-actions">
                     <button type="button" class="emoji-button" onclick="toggleEmojiPanel()">😀</button>
@@ -18,15 +23,15 @@
             </form>
 
             <div id="emoji-container" class="emoji-panel" style="display: none;">
-                <!-- input field for the emoji search, use oninput="searchEmojis() -->
-                <!-- a div, id = "emoji-grid" -->
+                <input type="text" id="emoji-search" placeholder="Search emojis..." oninput="searchEmojis()">
+                <div id="emoji-grid"></div>
             </div>
         </section>
     {{/if}}
 
     <section class="posts-list">
         <!-- recent posts -->
-
+        <h2>Recent {{postNeoType}}s</h2>
         {{#if posts.length}}
         <ul>
             {{#each posts}}
@@ -35,7 +40,7 @@
             {{/each}}
         </ul>
         {{else}}
-            <!-- no posts, oh no, what now? -->
+            <p>No posts yet. Be the first to post!</p>
         {{/if}}
     </section>
 </section>
@@ -59,7 +64,12 @@ function toggleEmojiPanel() {
 
 
     if(container.style.display === 'block' && allEmojis.length == 0){
-        // go "Fetch" you some emojis and show them off with displayEmojies
+        fetch('https://emoji-api.com/emojis?access_key=629ca12864cbf1d1d9209a4338b45311b470ff96')
+            .then(response => response.json())
+            .then(data => {
+                allEmojis = data;
+                displayEmojis(allEmojis);
+            });
     }
 }
 
@@ -91,10 +101,8 @@ function searchEmojis() {
 }
 
 function insertEmoji(emoji) {
-    // put an emoji on a form somehow. 
-
-    // do this when you're doing getting the emoji on the form
-    //
+    const textarea = document.getElementById('post-content');
+    textarea.value += emoji;
     textarea.focus();  // Keep focus on the textarea
 }
 </script>

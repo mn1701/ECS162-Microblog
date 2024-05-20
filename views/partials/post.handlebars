@@ -4,27 +4,52 @@
         <!-- the user's avatar -->
     </div>
     <div class="post-content preserve-newlines">
-        <!-- the post -->
+        <h3>{{title}}</h3>
+        <p>{{content}}</p>
         <div class="post-status-bar">
-            <!-- everything that is shown in the status bar -->
-            <!-- Heart = ♥ -->
-            <!-- font awesome  trashcan = <i class="fas fa-trash-alt"> </i>-->
-        </div>        
+            {{#ifCond username ../user.username}}
+                <form action="/delete/{{id}}" method="POST" style="display:inline;">
+                    <button type="submit" class="delete-button" data-id="{{id}}"><i class="fas fa-trash-alt"></i></button>
+                </form>
+            {{else}}
+                <form action="/like/{{id}}" method="POST" style="display:inline;">
+                    <button type="submit" class="like-button" data-id="{{id}}">♥ {{likes}}</button>
+                </form>
+            {{/ifCond}}
+            <span>by {{username}} at {{timestamp}}</span>
+        </div>
     </div>
 </div>
 <script>
 
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
-
-        // you might want to "fetch" something...        
+        fetch(`/like/${postId}`, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            }
+        });      
     }
 
     function handleDeleteClick(event) {
         const buttonElement = event.target.closest('.delete-button');
-        const postId = buttonElement.getAttribute('data-id');        
-
-        // you might want to "fetch" something...        
-        
+        const postId = buttonElement.getAttribute('data-id');
+        fetch(`/delete/${postId}`, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            }
+        });
     }    
+    document.querySelectorAll('.like-button').forEach(button => {
+        button.addEventListener('click', handleLikeClick);
+    });
+
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', handleDeleteClick);
+    });
+
 </script>
