@@ -146,44 +146,27 @@ app.post('/posts', (req, res) => {
 app.post('/like/:id', (req, res) => {
     updatePostLikes(req, res);;
 });
+
 app.get('/profile', isAuthenticated, (req, res) => {
-    const user = getCurrentUser(req) || {};
-    console.log('Route - User in Profile Route:', user); // debugging log
-    if (user) {
-        const userPosts = posts.filter(post => post.username === user.username);
-        res.render('profile', { user, posts: userPosts });
-    } else {
-        res.redirect('/login');
-    }
+    renderProfile(req, res);
   });
   
 app.get('/avatar/:username', (req, res) => {
     handleAvatar(req, res);
 });
+
 app.post('/register', (req, res) => {
-    const { username } = req.body;
-    if (!users.find(user => user.username === username)) {
-        const newUser = {
-            id: users.length + 1,
-            username,
-            avatar_url: undefined,
-            memberSince: new Date().toISOString(),
-        };
-        users.push(newUser);
-        req.session.userId = newUser.id;
-        req.session.loggedIn = true;
-        res.redirect('/');
-    } else {
-        res.redirect('/register?error=User%20already%20exists');
-    }
+    registerUser(req, res);
 });
   
 app.post('/login', (req, res) => {
     loginUser(req, res);
 });
+
 app.get('/logout', (req, res) => {
     logoutUser(req, res);
 });
+
 app.post('/delete/:id', isAuthenticated, (req, res) => {
   const postId = parseInt(req.params.id);
   const user = getCurrentUser(req);
