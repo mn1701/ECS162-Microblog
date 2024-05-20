@@ -191,8 +191,8 @@ app.listen(PORT, () => {
 
 // Example data for posts and users
 let posts = [
-    { id: 1, title: 'Sample Post', content: 'This is a sample post.', username: 'SampleUser', timestamp: '2024-01-01 10:00', likes: 0 },
-    { id: 2, title: 'Another Post', content: 'This is another sample post.', username: 'AnotherUser', timestamp: '2024-01-02 12:00', likes: 0 },
+    { id: 1, title: 'Sample Post', content: 'This is a sample post.', username: 'SampleUser', timestamp: '2024-01-01 10:00', likes: 0, likedBy: [] },
+    { id: 2, title: 'Another Post', content: 'This is another sample post.', username: 'AnotherUser', timestamp: '2024-01-02 12:00', likes: 0, likedBy: [] },
 ];
 let users = [
     { id: 1, username: 'SampleUser', avatar_url: undefined, memberSince: '2024-01-01 08:00' },
@@ -237,8 +237,10 @@ function registerUser(req, res) {
     if (findUserByUsername(username)) {
         res.redirect('/register?error=Username already exists');
     } else {
-        addUser(username);
-        res.redirect('/login');
+        const newUser = addUser(username);
+        req.session.userId = newUser.id;
+        req.session.loggedIn = true;
+        res.redirect('/');
     }
 }
 
@@ -278,7 +280,16 @@ function updatePostLikes(req, res) {
     if (user) {
         const post = posts.find(p => p.id === parseInt(req.params.id));
         if (post && post.username !== user.username) {
-            post.likes += 1;
+            const userIndex = post.likedBy.indexOf(user.id);
+            if (userIndex === -1) {
+                // Like the post
+                post.likes += 1;
+                post.likedBy.push(user.id);
+            } else {
+                // Unlike the post
+                post.likes -= 1;
+                post.likedBy.splice(userIndex, 1);
+            }
         }
     }
     res.redirect('/');
@@ -314,7 +325,8 @@ function addPost(title, content, user) {
         content,
         username: user.username,
         timestamp: new Date().toISOString(),
-        likes: 0
+        likes: 0,
+        likedBy: []
     };
     posts.push(newPost);
 }
