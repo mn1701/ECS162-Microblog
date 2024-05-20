@@ -82,7 +82,7 @@ app.use((req, res, next) => {
     res.locals.loggedIn = req.session.loggedIn || false;
     res.locals.userId = req.session.userId || '';
     res.locals.user = getCurrentUser(req) || {};
-    console.log('res.locals.user:', res.locals.user);
+    console.log('res.locals.loggedIn:', res.locals.loggedIn);
     next();
 });
 
@@ -101,7 +101,6 @@ app.use(express.json());                            // Parse JSON bodies (as sen
 app.get('/', (req, res) => {
     const posts = getPosts();
     const user = getCurrentUser(req) || {};
-    console.log('Route - User in Home Route:', user); // debugging log
     res.render('home', { posts, user });
 });
 
@@ -124,7 +123,6 @@ app.get('/error', (req, res) => {
 });
 
 // Additional routes that you must implement
-
 
 app.get('/post/:id', (req, res) => {
     const post = posts.find(p => p.id === parseInt(req.params.id));

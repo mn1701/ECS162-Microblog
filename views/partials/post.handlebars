@@ -15,7 +15,7 @@
             {{#ifCond username user.username}}
                 <button class="delete-button" data-id="{{id}}"><i class="fas fa-trash-alt"></i></button>
             {{else}}
-                <button class="like-button" data-id="{{id}}">♥</button>
+                <button class="like-button" data-id="{{id}}" data-logged-in="{{loggedIn}}">♥</button>
             {{/ifCond}}
             <span>by {{username}} on {{timestamp}}</span>
         </div>
@@ -36,6 +36,15 @@
 
     function handleLikeClick(event) {
         const postId = event.target.getAttribute('data-id');
+        const loggedIn = event.target.getAttribute('data-logged-in') === 'true';
+        console.log('Logged In:', loggedIn); // debugging logs
+        console.log('Post ID:', postId); // debugging logs
+
+        if (!loggedIn) {
+            window.location.href = '/login';
+            return;
+        }
+
         fetch(`/like/${postId}`, {
             method: 'POST'
         }).then(response => {
