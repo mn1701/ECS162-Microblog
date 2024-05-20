@@ -28,7 +28,7 @@ a:hover {
 }
 
 h1, h2, h3 {
-    margin: 0;
+    margin: 3px;
     padding: 0;
 }
 
@@ -113,8 +113,15 @@ nav ul li a {
 
 /* Post Styles */
 .post {
+    flex: 2;
     display: flex;
-    margin-bottom: 20px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+
+    width: 800px;
 }
 
 .post-avatar img {
@@ -124,7 +131,10 @@ nav ul li a {
 }
 
 .post-content {
-    flex: 1;
+    flex: 2;
+    margin-inline: 10px;
+    align-items: center;
+    padding: 10px 15px;
 }
 
 .preserve-newlines {
@@ -213,6 +223,8 @@ button.post-button:hover, button.emoji-button:hover {
     border-radius: 50%;
     height: 100px;
     margin-right: 20px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .profile-info {
