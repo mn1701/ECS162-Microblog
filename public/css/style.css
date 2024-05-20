@@ -32,6 +32,11 @@ h1, h2, h3 {
     padding: 0;
 }
 
+.toots {
+    align-items: center;
+    text-align: center;
+}
+
 /* Header and Navigation */
 header {
     background-color: #007BFF;
@@ -125,10 +130,19 @@ nav ul li a {
 }
 
 .post-avatar img {
-    border-radius: 50%;
-    height: 60px;
-    margin-right: 20px;
+   display: block;
+   border-radius: 50%;
+   height: 50px;
+
 }
+
+.post-avatar {
+    display: inline-block;
+    padding: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
 
 .post-content {
     flex: 2;
@@ -239,3 +253,4 @@ button.post-button:hover, button.emoji-button:hover {
 .user-posts ul li {
     margin-bottom: 20px;
 }
+
