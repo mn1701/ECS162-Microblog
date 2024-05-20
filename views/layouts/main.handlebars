@@ -29,6 +29,7 @@
                     <div class="user-info">
 
                         <!-- conditional rendering based on variables -->
+                        <a href="/profile">
                         <img src="{{#if user.avatar_url}}
                                         {{user.avatar_url}}
                                     {{else}}
@@ -36,6 +37,8 @@
                                     {{/if}}" 
                                     alt="User Avatar" 
                                     class="header-avatar">
+                        </a>
+                        
                     </div>
                 {{else}}
                     <li><a href="/">Home</a></li>
