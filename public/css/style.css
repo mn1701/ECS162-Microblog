@@ -171,7 +171,6 @@ nav ul li a {
 
 /* Forms */
 input[type="text"], textarea {
-    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -218,10 +217,17 @@ button.post-button:hover, button.emoji-button:hover {
 }
 
 /* Login/Register */
+
 .login-register {
+    padding-top: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    height: 100vh;
+    border-radius: 5px;
+    border: 1px solid;
 }
+
+
 
 .login-area, .register-area {
     width: 45%;
@@ -254,3 +260,37 @@ button.post-button:hover, button.emoji-button:hover {
     margin-bottom: 20px;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-container {
+    width: 300px;
+    margin: 0 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input, button {
+    margin: 5px 0;
+    padding: 8px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+}
+
+
+button:hover {
+    background-color: #0056b3;
+}
