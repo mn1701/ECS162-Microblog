@@ -209,11 +209,14 @@ function findUserById(userId) {
 
 // Function to add a new user
 function addUser(username) {
+    const timestamp = new Date().toISOString();
+    const formattedTimestamp = formatTimestamp(timestamp, false);
+
     const newUser = {
         id: users.length + 1,
         username,
         avatar_url: undefined,
-        memberSince: new Date().toISOString()
+        memberSince: formattedTimestamp
     };
     users.push(newUser);
     return newUser;
@@ -315,14 +318,34 @@ function getPosts() {
     return posts.slice().reverse();
 }
 
+// format time helper function
+function formatTimestamp(isoString, includeTime = true) {
+    const date = new Date(isoString); 
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    if (includeTime) {
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    } else {
+        return `${year}-${month}-${day}`;
+    }
+}
+
 // Function to add a new post
 function addPost(title, content, user) {
+    const timestamp = new Date().toISOString();
+    const formattedTimestamp = formatTimestamp(timestamp);
+
     const newPost = {
         id: posts.length + 1,
         title,
         content,
         username: user.username,
-        timestamp: new Date().toISOString(),
+        timestamp: formattedTimestamp,
         likes: 0,
         likedBy: []
     };
@@ -350,3 +373,6 @@ function generateAvatar(letter, width = 100, height = 100) {
 
     return newCanvas.toBuffer();
 }
+
+
+

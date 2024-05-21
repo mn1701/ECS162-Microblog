@@ -9,8 +9,8 @@ body {
 }
 
 footer {
-    background-color: #007BFF;
-    color: #fff;
+    color: #333;
+    background-color: #f9f9f9;
     text-align: center;
     padding: 10px 20px;
     width: 100%;
@@ -40,7 +40,7 @@ h1, h2, h3 {
 
 /* Header and Navigation */
 header {
-    background-color: #007BFF;
+    background-color: #123962;
     color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -102,35 +102,19 @@ nav ul li a {
     margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-    .content-container {
-        flex-direction: column;
-        align-items: center;  /* Center content vertically */
-    }
-    .post-form {
-        width: 90%;
-        max-width: 500px;  
-        margin-bottom: 1rem;  
-    }   
-}
-
 .post-form {
     width: 50%;
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-height: 400px;
 }
-
-
-
 
 .post-form h2,
 .posts-list h2 {
     text-align: center;
 }
-
-
 
 /* Post Styles */
 .post {
@@ -158,12 +142,15 @@ nav ul li a {
     margin-top: 20px;
 }
 
-
 .post-content {
     flex: 2;
+    flex-direction: column;
     margin-inline: 10px;
-    align-items: center;
     padding: 10px 15px;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    width: 65%; 
 }
 
 #post-c {
@@ -177,8 +164,6 @@ nav ul li a {
     min-height: 200px; 
     max-height: 400px; 
 }
-
-
 
 .preserve-newlines {
     white-space: pre-wrap;
@@ -197,6 +182,11 @@ nav ul li a {
     border: none;
     cursor: pointer;
     font-size: 1.2em;
+}
+
+.like-button:hover, .delete-button:hover {
+    color: #f04646;
+    background-color: white;
 }
 
 /* Forms */
@@ -219,9 +209,6 @@ textarea#post-content {
     resize: vertical; 
 }
 
-
-
-
 button.post-button, button.emoji-button  {
     flex: 1;
     padding: 10px;
@@ -240,9 +227,7 @@ button.post-button, button.emoji-button  {
     width: 210px;
 }
 
-
-
-button.post-button:hover, button.emoji-button:hover {
+button:hover {
     background-color: #0056b3;
 }
 
@@ -277,24 +262,31 @@ button.post-button:hover, button.emoji-button:hover {
     align-items: center;
     padding-top: 100px;
     font-size: 25px;
-    
 }
 
 .login-area {
-    width: 20%;
     padding: 1rem;
     border: 1px solid;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     height: 30vh;
-
+    max-width: 200px;
 }
 
+@media (max-width: 768px) {
+    .login-register {
+        flex-direction: column;
+        align-items: center;
+    }
+    .or-style {
+        padding: 20px
+    }
+}
 
 /* Profile */
 .profile-container {
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .profile-avatar img {
@@ -308,6 +300,8 @@ button.post-button:hover, button.emoji-button:hover {
 .profile-info {
     padding: 10px;
     margin-top: 10px;
+    margin-bottom: 50px;
+    margin-right: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
@@ -322,6 +316,11 @@ button.post-button:hover, button.emoji-button:hover {
 .user-posts ul {
     list-style: none;
     padding: 0;
+}
+
+.no-post{
+    text-align: center;
+    margin-top: 60px;
 }
 
 .user-posts ul li {
@@ -358,8 +357,36 @@ button {
     width: 100px;
 }
 
-
-button:hover {
-    background-color: #0056b3;
+@media (max-width: 1250px) {
+    .content-container {
+        flex-direction: column;
+        align-items: center;
+        scale: 90%;
+        margin-left: -30px;
+    }
+    .post-form {
+        margin-top: -50px;
+        width: 90%;
+        max-width: 500px;  
+        margin-bottom: 100px;          
+    }   
+    .post-status-bar {
+        flex-direction: column;
+        align-items:safe;
+    }
+    .post{
+        width: 700px
+    }
+    .emoji-panel{
+        max-height: 100px;
+    }
 }
 
+@media (max-width: 700px) {
+    body {
+        font-size: 95%;
+    }
+    .post{
+        width: 470px;
+    }
+}

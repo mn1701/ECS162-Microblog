@@ -9,7 +9,6 @@
         <p>{{content}}</p>
         <hr>
         <div class="post-status-bar">
-            <span>{{likes}} likes</span>
             {{!-- logging for debugging purposes --}}
             <script>
                 console.log('Comparing:', '{{username}}', '{{user.username}}');
@@ -19,6 +18,7 @@
             {{else}}
                 <button class="like-button" data-id="{{id}}" data-logged-in="{{loggedIn}}">♥</button>
             {{/ifCond}}
+            <span>{{likes}} likes</span>
             <span>by {{username}} on {{timestamp}}</span>
         </div>
     </div>

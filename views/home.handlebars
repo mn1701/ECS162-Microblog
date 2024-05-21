@@ -7,7 +7,7 @@
         <!-- show the create post form when logged in -->
         <section class="post-form">
             <!-- make a header here -->
-            <h2>Create a new {{postNeoType}}</h2>
+            <h2>Write a new {{postNeoType}}!</h2>
 
             <form action="/posts" method="POST">
                 <!-- title input field name = "title" -->
@@ -104,9 +104,9 @@ function searchEmojis() {
 }
 
 function insertEmoji(emoji) {
-    const textarea = document.getElementById('post-content');
+    const textarea = document.getElementById('post-c');
     textarea.value += emoji;
-    textarea.focus();  // Keep focus on the textarea
+    textarea.focus();
 }
 </script>
 
