@@ -125,7 +125,6 @@ nav ul li a {
     border-radius: 8px;
     background-color: #fff;
     font-family: Arial, sans-serif;
-
     width: 800px;
 }
 
@@ -171,6 +170,7 @@ nav ul li a {
 
 /* Forms */
 input[type="text"], textarea {
+    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -228,7 +228,6 @@ button.post-button:hover, button.emoji-button:hover {
 }
 
 
-
 .login-area, .register-area {
     width: 45%;
 }
@@ -248,7 +247,11 @@ button.post-button:hover, button.emoji-button:hover {
 }
 
 .profile-info {
-    flex: 1;
+    padding: 10px;
+}
+
+.profile-info-small {
+    font-weight: bold;
 }
 
 .user-posts ul {
