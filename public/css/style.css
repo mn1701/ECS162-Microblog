@@ -5,6 +5,7 @@ body {
     padding: 0;
     background-color: #f9f9f9;
     color: #333;
+   
 }
 
 footer {
@@ -101,15 +102,26 @@ nav ul li a {
     margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+    .content-container {
+        flex-direction: column;
+        align-items: center;  /* Center content vertically */
+    }
+    .post-form {
+        width: 90%;
+        max-width: 500px;  
+        margin-bottom: 1rem;  
+    }   
+}
 
-.post-form
- {
+.post-form {
     width: 50%;
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
 
 
 
